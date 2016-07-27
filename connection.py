@@ -22,7 +22,7 @@ def sendMalifalse(ip):
     mail_pass="rpbkggqyzqlhifbb"   #口令
     sender = '1220766607@qq.com'
     receivers = ['670417360@qq.com']  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
-    subject = u'生产服务器:' + ip + u'无响应'
+    subject = times + u'生产服务器:' + ip + u'无响应'
     message = MIMEText(subject, 'plain', 'utf-8')
     message['From'] = Header("安全检查", 'utf-8')
     message['To'] =  Header("安全部门><\"test=\"\"", 'utf-8')
@@ -34,12 +34,12 @@ def sendMalifalse(ip):
         smtpObj.starttls()
         smtpObj.login(mail_user,mail_pass)
         smtpObj.sendmail(sender, receivers, message.as_string())
-        print u"邮件发送成功"
+        print times + u"邮件发送成功"
         global SENDSTATUS
         SENDSTATUS = 1
         print SENDSTATUS
     except smtplib.SMTPException,e:
-        print "Error: 无法发送邮件 " + str(e)
+        print times + u"Error: 无法发送邮件 " + str(e)
 
 def sendMalitrue(ip):
     mail_host="smtp.qq.com"  #设置服务器
@@ -47,7 +47,7 @@ def sendMalitrue(ip):
     mail_pass="rpbkggqyzqlhifbb"   #口令
     sender = '1220766607@qq.com'
     receivers = ['670417360@qq.com']  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
-    subject = u'生产服务器:' + ip + u'恢复'
+    subject = times + u'生产服务器:' + ip + u'恢复'
     message = MIMEText(subject, 'plain', 'utf-8')
     message['From'] = Header("安全检查", 'utf-8')
     message['To'] =  Header("安全部门><\"test=\"\"", 'utf-8')
@@ -59,12 +59,12 @@ def sendMalitrue(ip):
         smtpObj.starttls()
         smtpObj.login(mail_user,mail_pass)
         smtpObj.sendmail(sender, receivers, message.as_string())
-        print u"邮件发送成功"
+        print times + u"邮件发送成功"
         global SENDSTATUS
         SENDSTATUS = 0
         print SENDSTATUS
     except smtplib.SMTPException,e:
-        print "Error: 无法发送邮件 " + str(e)
+        print times + "Error: 无法发送邮件 " + str(e)
 
 
 def reqHttp(url):
@@ -72,7 +72,7 @@ def reqHttp(url):
         r = requests.get(url)
         try:
             with open("log.txt",'a') as f:
-                f.write("连接到: "+str(url)+'\n')
+                f.write(times + "连接到: "+str(url)+'\n')
         except Exception,ex:
             print "读写错误:"+str(ex)
         if r.status_code == 200:
@@ -91,7 +91,7 @@ def reqHttp(url):
     except Exception,ex:
         try:
             with open("log.txt",'a') as f:
-                f.write("连接错误: "+str(ex)+'\n')
+                f.write(times+"连接错误: "+str(ex)+'\n')
         except Exception,e:
             print "读写错误: "+str(e)
         if SENDSTATUS == 0:
@@ -111,7 +111,7 @@ def reqSocket(ip,port):
         #banner = s.recv(1024)
         try:
             with open("log.txt",'a') as f:
-                f.write("连接到: "+ip+':'+str(port)+'\n')
+                f.write(times+"连接到: "+ip+':'+str(port)+'\n')
         except Exception,ex:
             print "读写错误: "+str(ex)
         if SENDSTATUS == 1:
@@ -122,7 +122,7 @@ def reqSocket(ip,port):
     except Exception ,e:
         try:
             with open("log.txt",'a') as f:
-                f.write("连接错误: "+str(e)+'\n')
+                f.write(times+"连接错误: "+str(e)+'\n')
         except Exception,ex:
             print "读写错误:"+str(ex)
         if SENDSTATUS == 0 :
@@ -133,6 +133,9 @@ def reqSocket(ip,port):
 
 
 def main():
+    ISOTIMEFORMAT='%Y-%m-%d %X'
+    global times
+    times = time.strftime( ISOTIMEFORMAT, time.localtime( time.time() ) )
     global SENDSTATUS
     SENDSTATUS = 0
     parser = optparse.OptionParser('usage %prog -u <target url> -H <target host> -p <target port> -r <file>')
