@@ -44,7 +44,7 @@ def sendMalifalse(ip):
 def sendMalitrue(ip):
     mail_host="smtp.qq.com"  #设置服务器
     mail_user="1220766607@qq.com"    #用户名
-    mail_pass="rpbkggqyzqlhifbb"   #口令
+    mail_pass=""   #口令
     sender = '1220766607@qq.com'
     receivers = ['670417360@qq.com']  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
     subject = times + u'生产服务器:' + ip + u'恢复'
